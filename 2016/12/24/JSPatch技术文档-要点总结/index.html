@@ -1,0 +1,705 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="点进来的同学应该是对JSPatch有初步的了解了,主要在此介绍一下我的学习总结:
+
+首先要了解OC代码如何转换为JS代码,语法层面
+如何实现动态,即如何通过服务器进行脚本下发
+与后台协调如何更好解决多个版本下发的问题
+JSPatch安全问题,如果没有对JSPatch脚本加密,攻击者就会通过网络传输的中间人攻击手段下发恶意脚本到用户APP.接入JSPatch时请做好加密传输,只要做RSA非对称加密传">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JSPatch技术文档--要点总结">
+<meta property="og:url" content="http://yoururl.com/2016/12/24/JSPatch技术文档-要点总结/index.html">
+<meta property="og:site_name" content="Eric'Blog">
+<meta property="og:description" content="点进来的同学应该是对JSPatch有初步的了解了,主要在此介绍一下我的学习总结:
+
+首先要了解OC代码如何转换为JS代码,语法层面
+如何实现动态,即如何通过服务器进行脚本下发
+与后台协调如何更好解决多个版本下发的问题
+JSPatch安全问题,如果没有对JSPatch脚本加密,攻击者就会通过网络传输的中间人攻击手段下发恶意脚本到用户APP.接入JSPatch时请做好加密传输,只要做RSA非对称加密传">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1392599-23a659d25a8a6fb9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1392599-8f4ea56890a596eb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1392599-c9ff4ae1f42aa20e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2016-12-24T09:35:18.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JSPatch技术文档--要点总结">
+<meta name="twitter:description" content="点进来的同学应该是对JSPatch有初步的了解了,主要在此介绍一下我的学习总结:
+
+首先要了解OC代码如何转换为JS代码,语法层面
+如何实现动态,即如何通过服务器进行脚本下发
+与后台协调如何更好解决多个版本下发的问题
+JSPatch安全问题,如果没有对JSPatch脚本加密,攻击者就会通过网络传输的中间人攻击手段下发恶意脚本到用户APP.接入JSPatch时请做好加密传输,只要做RSA非对称加密传">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/1392599-23a659d25a8a6fb9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoururl.com/2016/12/24/JSPatch技术文档-要点总结/"/>
+
+
+
+
+
+  <title> JSPatch技术文档--要点总结 | Eric'Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Eric'Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle"></p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoururl.com/2016/12/24/JSPatch技术文档-要点总结/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Eric">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="http://octgh9scz.bkt.clouddn.com/chunyang.jpeg?attname=&e=1482553833&token=LNefbQ5CufvndBztjWvk21WSnMYonbt9dtsORbSJ:dSl5qVAdWDhwneji7ZP7NIOPZ9w">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Eric'Blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Eric'Blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                JSPatch技术文档--要点总结
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-12-24T17:11:46+08:00">
+                2016-12-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>点进来的同学应该是对JSPatch有初步的了解了,主要在此介绍一下我的学习总结:</p>
+<ol>
+<li>首先要了解OC代码如何转换为JS代码,语法层面</li>
+<li>如何实现动态,即如何通过服务器进行脚本下发</li>
+<li>与后台协调如何更好解决多个版本下发的问题</li>
+<li>JSPatch安全问题,如果没有对JSPatch脚本加密,攻击者就会通过网络传输的中间人攻击手段下发恶意脚本到用户APP.接入JSPatch时请做好加密传输,只要做RSA非对称加密传输就不会有问题.</li>
+<li>充分测试问题,灰度测试</li>
+<li>防止连续crash</li>
+<li>实现原理(OC与JS的调用,OC黑科技runtime)</li>
+</ol>
+<h2 id="一丶OC转换为JS代码"><a href="#一丶OC转换为JS代码" class="headerlink" title="一丶OC转换为JS代码"></a>一丶OC转换为JS代码</h2><p>###1.1 require<br>在使用OC类之前需要调用require(‘className’):<br><code>require(&#39;UIView&#39;)</code><br><code>var view = UIView.alloc().init()</code><br>或者在使用时去调用<br><code>require(&#39;UIView&#39;).alloc().init()</code></p>
+<p>###1.2 调用OC方法<br>调用类方法: <code>var redColor = UIColor.redColor</code><br>获取Property就等于调用这个Property的getter方法:<code>view.setBackgroundColor(redColor);</code><br>修改这个值就等于调用了setter方法:<code>view.setBackgroundColor(redColor);</code><br>方法名转换,多参数要用_分割:`var indexPath = require(‘NSIndexPath’).indexPathForRow_inSection(0,1);</p>
+<p>这里只是简单介绍一下转换方法,其它的具体转换方法,请参考<br><a href="https://github.com/bang590/JSPatch/wiki/JSPatch-%E5%9F%BA%E7%A1%80%E7%94%A8%E6%B3%95" target="_blank" rel="external">JSPath作者,bang的文档</a><br>在平常使用过程中,作者提供了一个OC转JS代码的工具,点击这里查看:<br><a href="https://github.com/bang590/JSPatchConvertor" target="_blank" rel="external">JSPatch Conver</a>,可以先写好要改动的OC代码,然后用工具进行转换,然后检查转换后的代码是否有误,确认无误之后,进入下一步测试阶段.</p>
+<h2 id="二丶下发JS脚本"><a href="#二丶下发JS脚本" class="headerlink" title="二丶下发JS脚本"></a>二丶下发JS脚本</h2><p>###2.1 版本管理<br>因为不同的版本存在的bug不同,而且新的版本已经把旧版本已知的bug修复,所以在下发版本的时候,一定要做版本的区分.同一版本也可对应多个修复文件,对应同一APP版本的新版本补丁覆盖旧版本补丁,如下图:<br><img src="http://upload-images.jianshu.io/upload_images/1392599-23a659d25a8a6fb9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="img"></p>
+<h3 id="2-2-下载使用策略"><a href="#2-2-下载使用策略" class="headerlink" title="2.2 下载使用策略"></a>2.2 下载使用策略</h3><p>这里本来是计划把下载和使用都放在didFinishLaunchingWithOptions：这个方法里,这里参考了一位同行的<a href="http://www.cnblogs.com/dsxniubility/p/5080875.html" target="_blank" rel="external">做法</a>,使用js文件的代码放在didFinishLaunchingWithOptions： 而下载js文件的代码放在applicationDidBecomeActive: 因为这个方法在程序启动和后台回到前台时都会调用。然后设置一个间隔时间，根据一些数据和权衡之后我们采用的是间隔时间设为1小时。 也就是说每次来到这个方法时，先要检测是距离上次发请求的时间间隔是否超过1小时，超过则发请求，否则跳过。如下图:<br><img src="http://upload-images.jianshu.io/upload_images/1392599-8f4ea56890a596eb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="img"></p>
+<h3 id="2-3-仓库设置"><a href="#2-3-仓库设置" class="headerlink" title="2.3 仓库设置"></a>2.3 仓库设置</h3><p>仓库设置也要有个规范的流程,不能乱来,要不然后期可维护性比较差.对于一个APP来说,有多个版本即分为多个文件夹,然后在文件夹里放入JS文件,供客户端下载,同时也可以在JS文件同层放入json文件来自定义这个流程.</p>
+<h2 id="三丶安全问题"><a href="#三丶安全问题" class="headerlink" title="三丶安全问题"></a>三丶安全问题</h2><p>使用JSPatch主要有两个安全问题,传输安全:JS脚本可以调用任意OC方法,权限非常大,若被中间人攻击替换代码,会造成较大的危害;执行安全:下发的JS脚本灵活度大,相当于一次小型更新,若未进行充分测试,可能出现crash等情况.</p>
+<h3 id="传输安全"><a href="#传输安全" class="headerlink" title="传输安全"></a><strong>传输安全</strong></h3><p>我们的目的是防止传输过程中数据被篡改,然后做了一些危害程序的操作,而我们还傻乎乎的去执行这个文件- -,所以这里选择作者倾情推荐的安全性高,部署简单,门槛低的方案:RSA校验.这种方式属于数字签名,用了跟HTTPS一样的非对称加密,把非对称加密只用于校验文件,不解决传输过程中数据内容泄露的问题.整个校验过程如下:<br><img src="http://upload-images.jianshu.io/upload_images/1392599-c9ff4ae1f42aa20e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="img"></p>
+<ol>
+<li>服务端计算出脚本文件的MD5值,作为这个文字的数字签名.</li>
+<li>服务端通过私钥加密第1步算出的MD5值,得到一个加密后的MD5值.</li>
+<li>把脚本文件和加密后的MD5值一起下发给客户端.</li>
+<li>把客户端拿到的已经加密过的MD5值,通过保存在客户端的公钥解密.</li>
+<li>客户端计算脚本文件的MD5值.</li>
+<li>比对第4步和第5步的两个MD5值(分别是客户端和服务端计算出来的MD5值),如果相等则通过校验.</li>
+</ol>
+<p>只要通过校验,就可以确保脚本在传输过程中没有被篡改,因为第三方若要篡改脚本文件,必须要计算出新的脚本文件MD5并用私钥加密,客户端公钥才能解密出这个MD5值,而在服务器未泄露的情况下第三方是拿不到私钥的.</p>
+<h3 id="执行安全"><a href="#执行安全" class="headerlink" title="执行安全"></a><strong>执行安全</strong></h3><p>因为一旦下发JS脚本,就代表客户端就会根据脚本文件执行方法(如果JS脚本替换类的方法写错了,当我没说…),如果某个地方的代码写的不够严谨,就可能导致大量crash,或者是一些奇怪的问题.需要有一些机制来避免这种情况发生.若要做的完整,可以分为:事发前(灰度),事发中(监控),事发后(回退).</p>
+<h4 id="灰度"><a href="#灰度" class="headerlink" title="灰度"></a>灰度</h4><p>首先需要在事发前把出现问题的影响面降到最低，对于中大型 APP，不能一次把脚本下发给所有用户，需要有灰度机制，也就是一开始只下发给其中一部分用户，看看会不会出现异常情况，再逐步覆盖到所有用户。有条件的话灰度的用户最好按机型/系统/地域等属性随机分配，尽量让最少的人覆盖到大部分情况。</p>
+<p>####监控<br>接着是事发了我们需要知道脚本有问题，需要对 APP 有一些监控机制，像 crash 监控，这个一般所有 APP 都有接入，再按需求自行加入其他监控指标。</p>
+<p>####回退<br>最后是事发后回退代码。一般为了避免不可预料的情况出现，JSPatch 脚本建议在启动时执行，APP 运行过程中不去除，所以这个回退建议的实现方式是后台下发命令，让 APP 在下次启动时不执行 JSPatch 脚本即可。<br>但这里能回退的前提是 APP 可以接收到后台下发的回退命令，若因为下发的脚本导致 APP 启动即时 crash，这个回退命令也会接收不到。所以建议再加一层防启动 crash 的机制，APP 在连续启动即 crash 后，下次启动不再执行脚本文件。<br>这里需要补充一下,JS脚本引起的crash按崩溃的阶段可分为:</p>
+<ol>
+<li>调用到JS脚本里修改后的方法引起崩溃,这种可以通过下发新的JS脚本来解决.</li>
+<li>APP启动即崩溃,这种情况已经不能通过下发脚本解决.要有专门的防止连续crash的解决方案.</li>
+</ol>
+<h4 id="连续crash解决方案"><a href="#连续crash解决方案" class="headerlink" title="连续crash解决方案"></a>连续crash解决方案</h4><p>(………)等我专门研究清楚了重开一篇~~~</p>
+<p>在文末帮偶像bang推荐一下他的JSPatch平台,大家如果由于某些原因不通过自家服务器下发脚本,可以通过这个平台来进行脚本的下发:<a href="http://www.jspatch.com/" target="_blank" rel="external">JSPatch平台</a>.<br>有问题欢迎联系我沟通交流,QQ:364385155.顺便给俺点个喜欢更好~</p>
+<p>#####参考资料</p>
+<ol>
+<li><a href="https://github.com/bang590/JSPatch" target="_blank" rel="external">https://github.com/bang590/JSPatch</a></li>
+<li><a href="http://www.cnblogs.com/dsxniubility/p/5080875.html" target="_blank" rel="external">http://www.cnblogs.com/dsxniubility/p/5080875.html</a></li>
+<li><a href="http://www.jianshu.com/p/0cb81bf23d7a" target="_blank" rel="external">http://www.jianshu.com/p/0cb81bf23d7a</a></li>
+<li><a href="http://blog.cnbang.net/" target="_blank" rel="external">http://blog.cnbang.net/</a></li>
+</ol>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/12/24/iOS构建流程/" rel="next" title="iOS构建流程">
+                <i class="fa fa-chevron-left"></i> iOS构建流程
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/12/24/iOS自己动手篡改APP网络请求及简单防护/" rel="prev" title="iOS自己动手篡改APP网络请求及简单防护">
+                iOS自己动手篡改APP网络请求及简单防护 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://octgh9scz.bkt.clouddn.com/chunyang.jpeg?attname=&e=1482553833&token=LNefbQ5CufvndBztjWvk21WSnMYonbt9dtsORbSJ:dSl5qVAdWDhwneji7ZP7NIOPZ9w"
+               alt="Eric" />
+          <p class="site-author-name" itemprop="name">Eric</p>
+          <p class="site-description motion-element" itemprop="description">怕什么真理无穷,进一寸有一寸的欢喜</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/ericze" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一丶OC转换为JS代码"><span class="nav-number">1.</span> <span class="nav-text">一丶OC转换为JS代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二丶下发JS脚本"><span class="nav-number">2.</span> <span class="nav-text">二丶下发JS脚本</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-下载使用策略"><span class="nav-number">2.1.</span> <span class="nav-text">2.2 下载使用策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-仓库设置"><span class="nav-number">2.2.</span> <span class="nav-text">2.3 仓库设置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三丶安全问题"><span class="nav-number">3.</span> <span class="nav-text">三丶安全问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#传输安全"><span class="nav-number">3.1.</span> <span class="nav-text">传输安全</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#执行安全"><span class="nav-number">3.2.</span> <span class="nav-text">执行安全</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#灰度"><span class="nav-number">3.2.1.</span> <span class="nav-text">灰度</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#连续crash解决方案"><span class="nav-number">3.2.2.</span> <span class="nav-text">连续crash解决方案</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Eric</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>
