@@ -103,7 +103,7 @@ JSPatch安全问题,如果没有对JSPatch脚本加密,攻击者就会通过网�
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1392599-23a659d25a8a6fb9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1392599-8f4ea56890a596eb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1392599-c9ff4ae1f42aa20e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2016-12-24T09:35:18.000Z">
+<meta property="og:updated_time" content="2016-12-26T10:00:13.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JSPatch技术文档--要点总结">
 <meta name="twitter:description" content="点进来的同学应该是对JSPatch有初步的了解了,主要在此介绍一下我的学习总结:
@@ -274,7 +274,7 @@ JSPatch安全问题,如果没有对JSPatch脚本加密,攻击者就会通过网�
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="Eric">
     <meta itemprop="description" content="">
-    <meta itemprop="image" content="http://octgh9scz.bkt.clouddn.com/chunyang.jpeg?attname=&e=1482553833&token=LNefbQ5CufvndBztjWvk21WSnMYonbt9dtsORbSJ:dSl5qVAdWDhwneji7ZP7NIOPZ9w">
+    <meta itemprop="image" content="http://octgh9scz.bkt.clouddn.com/chunyang.jpeg?attname=&e=1482747817&token=LNefbQ5CufvndBztjWvk21WSnMYonbt9dtsORbSJ:B_uTY9WbSk_kmfEOZi5ESRIY6AY">
   </span>
 
   <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -352,10 +352,9 @@ JSPatch安全问题,如果没有对JSPatch脚本加密,攻击者就会通过网�
 <li>JSPatch安全问题,如果没有对JSPatch脚本加密,攻击者就会通过网络传输的中间人攻击手段下发恶意脚本到用户APP.接入JSPatch时请做好加密传输,只要做RSA非对称加密传输就不会有问题.</li>
 <li>充分测试问题,灰度测试</li>
 <li>防止连续crash</li>
-<li>实现原理(OC与JS的调用,OC黑科技runtime)</li>
+<li>实现原理(OC与JS的调用,OC黑科技runtime)<a id="more"></a>
+<h2 id="一丶OC转换为JS代码"><a href="#一丶OC转换为JS代码" class="headerlink" title="一丶OC转换为JS代码"></a>一丶OC转换为JS代码</h2>###1.1 require<br>在使用OC类之前需要调用require(‘className’):<br><code>require(&#39;UIView&#39;)</code><br><code>var view = UIView.alloc().init()</code><br>或者在使用时去调用<br><code>require(&#39;UIView&#39;).alloc().init()</code><br>###1.2 调用OC方法<br>调用类方法: <code>var redColor = UIColor.redColor</code><br>获取Property就等于调用这个Property的getter方法:<code>view.setBackgroundColor(redColor);</code><br>修改这个值就等于调用了setter方法:<code>view.setBackgroundColor(redColor);</code><br>方法名转换,多参数要用_分割:`var indexPath = require(‘NSIndexPath’).indexPathForRow_inSection(0,1);</li>
 </ol>
-<h2 id="一丶OC转换为JS代码"><a href="#一丶OC转换为JS代码" class="headerlink" title="一丶OC转换为JS代码"></a>一丶OC转换为JS代码</h2><p>###1.1 require<br>在使用OC类之前需要调用require(‘className’):<br><code>require(&#39;UIView&#39;)</code><br><code>var view = UIView.alloc().init()</code><br>或者在使用时去调用<br><code>require(&#39;UIView&#39;).alloc().init()</code></p>
-<p>###1.2 调用OC方法<br>调用类方法: <code>var redColor = UIColor.redColor</code><br>获取Property就等于调用这个Property的getter方法:<code>view.setBackgroundColor(redColor);</code><br>修改这个值就等于调用了setter方法:<code>view.setBackgroundColor(redColor);</code><br>方法名转换,多参数要用_分割:`var indexPath = require(‘NSIndexPath’).indexPathForRow_inSection(0,1);</p>
 <p>这里只是简单介绍一下转换方法,其它的具体转换方法,请参考<br><a href="https://github.com/bang590/JSPatch/wiki/JSPatch-%E5%9F%BA%E7%A1%80%E7%94%A8%E6%B3%95" target="_blank" rel="external">JSPath作者,bang的文档</a><br>在平常使用过程中,作者提供了一个OC转JS代码的工具,点击这里查看:<br><a href="https://github.com/bang590/JSPatchConvertor" target="_blank" rel="external">JSPatch Conver</a>,可以先写好要改动的OC代码,然后用工具进行转换,然后检查转换后的代码是否有误,确认无误之后,进入下一步测试阶段.</p>
 <h2 id="二丶下发JS脚本"><a href="#二丶下发JS脚本" class="headerlink" title="二丶下发JS脚本"></a>二丶下发JS脚本</h2><p>###2.1 版本管理<br>因为不同的版本存在的bug不同,而且新的版本已经把旧版本已知的bug修复,所以在下发版本的时候,一定要做版本的区分.同一版本也可对应多个修复文件,对应同一APP版本的新版本补丁覆盖旧版本补丁,如下图:<br><img src="http://upload-images.jianshu.io/upload_images/1392599-23a659d25a8a6fb9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="img"></p>
 <h3 id="2-2-下载使用策略"><a href="#2-2-下载使用策略" class="headerlink" title="2.2 下载使用策略"></a>2.2 下载使用策略</h3><p>这里本来是计划把下载和使用都放在didFinishLaunchingWithOptions：这个方法里,这里参考了一位同行的<a href="http://www.cnblogs.com/dsxniubility/p/5080875.html" target="_blank" rel="external">做法</a>,使用js文件的代码放在didFinishLaunchingWithOptions： 而下载js文件的代码放在applicationDidBecomeActive: 因为这个方法在程序启动和后台回到前台时都会调用。然后设置一个间隔时间，根据一些数据和权衡之后我们采用的是间隔时间设为1小时。 也就是说每次来到这个方法时，先要检测是距离上次发请求的时间间隔是否超过1小时，超过则发请求，否则跳过。如下图:<br><img src="http://upload-images.jianshu.io/upload_images/1392599-8f4ea56890a596eb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="img"></p>
@@ -486,7 +485,7 @@ JSPatch安全问题,如果没有对JSPatch脚本加密,攻击者就会通过网�
       <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
-               src="http://octgh9scz.bkt.clouddn.com/chunyang.jpeg?attname=&e=1482553833&token=LNefbQ5CufvndBztjWvk21WSnMYonbt9dtsORbSJ:dSl5qVAdWDhwneji7ZP7NIOPZ9w"
+               src="http://octgh9scz.bkt.clouddn.com/chunyang.jpeg?attname=&e=1482747817&token=LNefbQ5CufvndBztjWvk21WSnMYonbt9dtsORbSJ:B_uTY9WbSk_kmfEOZi5ESRIY6AY"
                alt="Eric" />
           <p class="site-author-name" itemprop="name">Eric</p>
           <p class="site-description motion-element" itemprop="description">怕什么真理无穷,进一寸有一寸的欢喜</p>

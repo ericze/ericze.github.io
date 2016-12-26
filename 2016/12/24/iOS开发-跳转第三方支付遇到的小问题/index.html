@@ -94,7 +94,7 @@
 <meta property="og:description" content="1.首先是最常见的微信订单号重复的问题,这里做的操作就是在拿到服务器的订单号之后,APP端随机在后边追加两个字符串,这样就可以避免这个问题.
 2.如果服务器生成的订单号过长的话也会调起失败,返回:订单号长度错误.
 3.第三个问题相对于前两个来说比较隐蔽,刚跳转到第三方支付之后,不在第三方如:微信,支付宝做任何操作,然后通过双击home键或者点击左上角的方式返回自己的应用,这时候是收不到任何的回调,">
-<meta property="og:updated_time" content="2016-12-24T09:35:29.000Z">
+<meta property="og:updated_time" content="2016-12-26T10:00:35.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS开发-跳转第三方支付遇到的小问题">
 <meta name="twitter:description" content="1.首先是最常见的微信订单号重复的问题,这里做的操作就是在拿到服务器的订单号之后,APP端随机在后边追加两个字符串,这样就可以避免这个问题.
@@ -261,7 +261,7 @@
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="Eric">
     <meta itemprop="description" content="">
-    <meta itemprop="image" content="http://octgh9scz.bkt.clouddn.com/chunyang.jpeg?attname=&e=1482553833&token=LNefbQ5CufvndBztjWvk21WSnMYonbt9dtsORbSJ:dSl5qVAdWDhwneji7ZP7NIOPZ9w">
+    <meta itemprop="image" content="http://octgh9scz.bkt.clouddn.com/chunyang.jpeg?attname=&e=1482747817&token=LNefbQ5CufvndBztjWvk21WSnMYonbt9dtsORbSJ:B_uTY9WbSk_kmfEOZi5ESRIY6AY">
   </span>
 
   <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -333,7 +333,7 @@
       
         <p>1.首先是最常见的微信订单号重复的问题,这里做的操作就是在拿到服务器的订单号之后,APP端随机在后边追加两个字符串,这样就可以避免这个问题.</p>
 <p>2.如果服务器生成的订单号过长的话也会调起失败,返回:订单号长度错误.</p>
-<p>3.第三个问题相对于前两个来说比较隐蔽,刚跳转到第三方支付之后,不在第三方如:微信,支付宝做任何操作,然后通过双击home键或者点击左上角的方式返回自己的应用,这时候是收不到任何的回调,这样造成的结果就是程序界面仍然停留在收银台页面,这样用户继续点击就会造成重复下单的BUG,是一个比较麻烦的问题.初步想到的解决办法即时性的都不能解决.最后想到了一个稍微讨巧的办法,首先如果这个程序是通过支付跳转到第三方的,就加一个布尔值apinPayGO,当程序从后台进入前台时就发出通知,.经过实际测试,支付的回调实在系统的运行方法之后的,收银台页面在接收到该通知之后,延迟一秒执行方法,判断系统这次从后台进入前台是否经过了支付第三方的回调方法,如果经过了支付第三方的回调方法就不做任务操作,如果没经过第三方的回调方法,证明用户在跳转到第三方时没做任务操作,直接通过iOS系统返回到自己的应用了,这里就把页面跳转到待支付页面,然后开始倒计时!</p>
+<p>3.第三个问题相对于前两个来说比较隐蔽,刚跳转到第三方支付之后,不在第三方如:微信,支付宝做任何操作,然后通过双击home键或者点击左上角的方式返回自己的应用,这时候是收不到任何的回调,这样造成的结果就是程序界面仍然停留在收银台页面,这样用户继续点击就会造成重复下单的BUG,是一个比较麻烦的问题.初步想到的解决办法即时性的都不能解决.最后想到了一个稍微讨巧的办法,首先如果这个程序是通过支付跳转到第三方的,就加一个布尔值apinPayGO,当程序从后台进入前台时就发出通知,.经过实际测试,支付的回调实在系统的运行方法之后的,收银台页面在接收到该通知之后,延迟一秒执行方法,判断系统这次从后台进入前台是否经过了支付第三方的回调方法,如果经过了支付第三方的回调方法就不做任务操作,如果没经过第三方的回调方法,证明用户在跳转到第三方时没做任务操作,直接通过iOS系统返回到自己的应用了,这里就把页面跳转到待支付页面,然后开始倒计时!<br><a id="more"></a></p>
 <ul>
 <li>(void)applicationWillEnterForeground:(UIApplication*)application{</li>
 </ul>
@@ -435,7 +435,7 @@
       <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
-               src="http://octgh9scz.bkt.clouddn.com/chunyang.jpeg?attname=&e=1482553833&token=LNefbQ5CufvndBztjWvk21WSnMYonbt9dtsORbSJ:dSl5qVAdWDhwneji7ZP7NIOPZ9w"
+               src="http://octgh9scz.bkt.clouddn.com/chunyang.jpeg?attname=&e=1482747817&token=LNefbQ5CufvndBztjWvk21WSnMYonbt9dtsORbSJ:B_uTY9WbSk_kmfEOZi5ESRIY6AY"
                alt="Eric" />
           <p class="site-author-name" itemprop="name">Eric</p>
           <p class="site-description motion-element" itemprop="description">怕什么真理无穷,进一寸有一寸的欢喜</p>
