@@ -98,7 +98,7 @@
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1392599-2b8ed8034c8bb2f9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1392599-b1a2cae99dce1ae1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1392599-978089cd4b585386.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2016-12-24T09:35:06.000Z">
+<meta property="og:updated_time" content="2016-12-26T02:28:40.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="实战篇-手把手教你搭建ghost博客">
 <meta name="twitter:description" content="####一.购买域名,服务器   购买的渠道很多,我是直接在阿里云官网把两个买齐的.买域名没什么需要注意的,搜一下自己喜欢的域名然后按步骤购买就可以了.   买服务器的话,最低配置就可以满足需求了,操作系统要选择UBuntu 64位系统,带宽1M,具体配置如下:买完服务器之后就可以进行域名解析啦,域名解析如下,添加两条就可以了
@@ -348,17 +348,13 @@
 <ol>
 <li>下载安装Windows SSH和Telnet客户端Putty。 下载Putty</li>
 <li>用户名：root    实例：120.26.xxx.xxx</li>
-<li>按照Putty使用帮助进行登录。Putty使用帮助  </li>
-</ol>
-<p><code>ssh root@120.26.xxx.xxx</code><br>点击回车,然后输入你的服务器密码,如果密码无误就会出现欢迎界面.  </p>
-<p>#####2.2 安装Node.js&amp;Nginx<br><code>sudo apt-get update  
+<li>按照Putty使用帮助进行登录。Putty使用帮助  <a id="more"></a>
+<code>ssh root@120.26.xxx.xxx</code><br>点击回车,然后输入你的服务器密码,如果密码无误就会出现欢迎界面.<br>#####2.2 安装Node.js&amp;Nginx<br><code>sudo apt-get update  
 sudo apt-get install -y python-software-properties python g++ make 
 sudo add-apt-repository ppa:chris-lea/node.js</code><br>如果敲上面的代码出现: add-apt-repository: command not found ,需要先安装才能继续进行:<br><code>sudo apt-get install python-software-properties  
 sudo apt-get install software-properties-common</code><br>安装完成之后继续执行下面的命令:<br><code>sudo add-apt-repository ppa:chris-lea/node.js  
 sudo apt-get update
-sudo apt-get install nodejs</code><br>都执行完之后用<code>node -v</code>查看安装是否成功:v0.10.37<br><code>npm -v</code>:1.4.28<br>接下来安装Nginx: <code>sudo apt-get install nginx</code></p>
-<p>#####2.3 安装MySQL<br>用MySQL数据库来管理存储博客的数据<br><code>sudo apt-get install mysql-server</code><br>安装过程中系统会让你给root用户设置密码,<img src="http://upload-images.jianshu.io/upload_images/1392599-b1a2cae99dce1ae1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"><br>如果安装过程中出现 mysql Access denied for user ‘root’@’localhost’ (using password:YES) 解决方案:  </p>
-<ol>
+sudo apt-get install nodejs</code><br>都执行完之后用<code>node -v</code>查看安装是否成功:v0.10.37<br><code>npm -v</code>:1.4.28<br>接下来安装Nginx: <code>sudo apt-get install nginx</code><br>#####2.3 安装MySQL<br>用MySQL数据库来管理存储博客的数据<br><code>sudo apt-get install mysql-server</code><br>安装过程中系统会让你给root用户设置密码,<img src="http://upload-images.jianshu.io/upload_images/1392599-b1a2cae99dce1ae1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"><br>如果安装过程中出现 mysql Access denied for user ‘root’@’localhost’ (using password:YES) 解决方案:  </li>
 <li>打开MySQL目录下的my.ini文件，在文件的最后添加一行“skip-grant-tables”，保存并关闭文件。  </li>
 <li>重启MySQL服务。</li>
 <li>在命令行中输入“mysql -uroot -p”(不输入密码)，回车即可进入数据库。</li>

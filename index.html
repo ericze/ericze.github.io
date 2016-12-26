@@ -999,8 +999,7 @@
 
       
         
-          
-            <p>####一.购买域名,服务器<br>   购买的渠道很多,我是直接在阿里云官网把两个买齐的.买域名没什么需要注意的,搜一下自己喜欢的域名然后按步骤购买就可以了.<br>   买服务器的话,最低配置就可以满足需求了,操作系统要选择UBuntu 64位系统,带宽1M,具体配置如下:<br><img src="http://upload-images.jianshu.io/upload_images/1392599-0ef1bab4f2c08f5c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"><br>买完服务器之后就可以进行域名解析啦,域名解析如下,添加两条就可以了<br><img src="http://upload-images.jianshu.io/upload_images/1392599-2b8ed8034c8bb2f9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="img"></p>
+          <p>####一.购买域名,服务器<br>   购买的渠道很多,我是直接在阿里云官网把两个买齐的.买域名没什么需要注意的,搜一下自己喜欢的域名然后按步骤购买就可以了.<br>   买服务器的话,最低配置就可以满足需求了,操作系统要选择UBuntu 64位系统,带宽1M,具体配置如下:<br><img src="http://upload-images.jianshu.io/upload_images/1392599-0ef1bab4f2c08f5c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"><br>买完服务器之后就可以进行域名解析啦,域名解析如下,添加两条就可以了<br><img src="http://upload-images.jianshu.io/upload_images/1392599-2b8ed8034c8bb2f9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="img"></p>
 <p>####二.配置服务器</p>
 <p>#####2.1 连接服务器<br>Linux/Mac OS X系统的电脑</p>
 <ol>
@@ -1012,70 +1011,14 @@
 <ol>
 <li>下载安装Windows SSH和Telnet客户端Putty。 下载Putty</li>
 <li>用户名：root    实例：120.26.xxx.xxx</li>
-<li>按照Putty使用帮助进行登录。Putty使用帮助  </li>
-</ol>
-<p><code>ssh root@120.26.xxx.xxx</code><br>点击回车,然后输入你的服务器密码,如果密码无误就会出现欢迎界面.  </p>
-<p>#####2.2 安装Node.js&amp;Nginx<br><code>sudo apt-get update  
-sudo apt-get install -y python-software-properties python g++ make 
-sudo add-apt-repository ppa:chris-lea/node.js</code><br>如果敲上面的代码出现: add-apt-repository: command not found ,需要先安装才能继续进行:<br><code>sudo apt-get install python-software-properties  
-sudo apt-get install software-properties-common</code><br>安装完成之后继续执行下面的命令:<br><code>sudo add-apt-repository ppa:chris-lea/node.js  
-sudo apt-get update
-sudo apt-get install nodejs</code><br>都执行完之后用<code>node -v</code>查看安装是否成功:v0.10.37<br><code>npm -v</code>:1.4.28<br>接下来安装Nginx: <code>sudo apt-get install nginx</code></p>
-<p>#####2.3 安装MySQL<br>用MySQL数据库来管理存储博客的数据<br><code>sudo apt-get install mysql-server</code><br>安装过程中系统会让你给root用户设置密码,<img src="http://upload-images.jianshu.io/upload_images/1392599-b1a2cae99dce1ae1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"><br>如果安装过程中出现 mysql Access denied for user ‘root’@’localhost’ (using password:YES) 解决方案:  </p>
-<ol>
-<li>打开MySQL目录下的my.ini文件，在文件的最后添加一行“skip-grant-tables”，保存并关闭文件。  </li>
-<li>重启MySQL服务。</li>
-<li>在命令行中输入“mysql -uroot -p”(不输入密码)，回车即可进入数据库。</li>
-<li>执行，“use mysql;”使用mysql数据库。</li>
-<li>执行，“update user set password=PASSWORD(“rootadmin”) where user=’root’;”（修改root的密码）<br>(期间我还select下user表中的记录，查询全部的时候显示了一些乱码，然后我只查询了user表中的Host、User、Password字段，貌似当时显示了3条记录，有1个没有名称。当然，为了解决问题，这些我也管不了了。)  </li>
-<li>打开MySQL目录下的my.ini文件，删除最后一行的“skip-grant-tables”，保存并关闭文件。</li>
-<li>重启MySQL服务。</li>
-<li>在命令行中输入“mysql -uroot -prootadmin”，问题搞定！<br>实际解决方案:删除mysql,重新安装<br>安装完MySQL后,设置utf8<br>执行命令: <code>cd /etc/mysql</code><br>编辑my.conf文件: <code>vi my.cnf</code><br>然后去修改一下配置文件,点击i进入插入模式<br><code>[mysqld]
-collation-server = utf8_unicode_ci  
-init-connect=&#39;SET NAMES utf8&#39;
-character-set-server = utf8</code><br>编辑完成之后,按ESC 然后 输入 <code>:wq</code>,保存并退出编辑.然后重启MySQL,<br><code>service mysql restart</code><br>之后我们来检查一下修改是否正确,进入MySQL命令行界面:<br><code>mysql -uroot -p</code><br>输入之前设置的MySQL密码,然后输入指令:<br><code>show variables like &#39;collation%&#39;;</code>,检查键值对是否一致,如果不一致,就去打开刚才的配置文件检查修改的是否有误.<br>#####2.4 创建ghost数据库,配置Nginx</li>
-</ol>
-<ul>
-<li>为ghost创建一个MySQL数据库,执行如下命令:<br><code>mysql -uroot -p -e &#39;create database ghost;&#39;</code><br>系统会提示你输入密码,输入刚才设置的MySQL的root用户的密码  </li>
-<li>我们要用Nginx做ghost的前段代理服务.首先进入Nginx目录下:<br><code>cd /etc/nginx/sites-available/</code><br>然后创建并且编辑ghost.conf配置文件:<br><code>sudo touch ghost.conf</code><br><code>sudo vi ghost.conf</code><br><code>server
-{
-  listen 80; 
-  server_name ericze.com; //替换为你自己的域名！
-  location / { proxy_set_header X-Real-IP $remote_addr; 
-  proxy_set_header Host $http_host;
-  proxy_pass http://127.0.0.1:2368; 
-}
-}</code><br>然后为ghost.conf文件做一个软连接到当前目录下(这一步不知道是为啥),反正照着做吧:<br><code>sudo ln -s /etc/nginx/sites-available/ghost.conf /etc/nginx/sites-enabled/ghost.conf</code>  </li>
-<li>通过npm start 启动ghost的话,如果关闭了远程连接,Ghost也就停了,因此需要一个文件改动监听且自动重启的工具:forever来解决这个问题,输入一下命令安装forever:<br><code>sudo npm install forever -g</code><br>#####2.5 安装Ghost<br>现在前戏已经做足,重头戏登场,这里我参考的文章里给的方法都不太对,我稍微花了点时间去查找.因为下载的是zip文件,所以先下载个解压工具,<br>进入srv文件夹:<code>cd /srv/</code><br>下载解压工具:<code>sudo apt-get install unzip</code><br>然后去下载Ghost: <code>sudo wget http://dl.ghostchina.com/Ghost-0.7.4-zh-full.zip</code>,这个地址是我当时下载的最新版,如果要下载最新版,可以直接去官网拷贝,地址为: <a href="http://www.ghostchina.com/download" target="_blank" rel="external">Ghost官网下载地址</a>.<br>然后解压ghost: <code>sudo unzip ghost.zip -d ghost</code><br>解压之后,进入Ghost目录修改配置文件:<code>cd /srv/ghost/</code><br>拷贝一份配置文件模板:<code>sudo cp config.example.js config.js</code><br>然后打开配置文件进行编辑:<code>sudo vi config.js</code>  </li>
-</ul>
-<p>配置文件里边有两种数据库,上边的是sqlit3的,把那个注释掉,然后下边那个是MySQL的配置,把这个注释打开,注意操作过程中不要出错.这里只修改一下生产环境的配置信息,具体修改如下:<br><code>// ### Production
-// When running Ghost in the wild, use the production environment 
-// Configure your URL and mail settings here
-production: {                                                                 
-  url: &#39;http://ghostchina.com&#39;, //替换为你自己的域名。                           
-  mail: {},  
-  database: {                                                              
-    updateCheck: false,                                                           
-    client: &#39;mysql&#39;,                                                          
-    connection: {                                                                     
-    host : &#39;127.0.0.1&#39;,                                                               
-    user : &#39;root&#39;, //我们暂且用 MySQL 的 root 账户                                  
-    password : &#39;123456&#39;, //输入你的 MySQL 密码                                   
-    database : &#39;ghost&#39;, //我们前面为 Ghost 创建的数据库名称                        
-    charset : &#39;utf8&#39;
-    }                                                               
-  },  
-server: {                                                                            
-    // Host to be passed to node&#39;s `net.Server#listen()`                                  
-    host: &#39;127.0.0.1&#39;,                                                             
-    port: &#39;2368&#39;                                                                    
-  }                                                                               
-},</code><br>编辑完成之后最好检查一下,因为随便输错一个字符,就要从头排查错误,很伤!<br>比对无误之后,按ESC,然后输入 <code>:wq</code>保存并退出编辑.  </p>
-<ul>
-<li>安装ghost依赖库  打开ghost系统的目录下面的package.json文件,将”sqlite3”:  “2.2.0”, 这一行删除掉（注意，你看到的 sqlite 版本可能会不一样，但是，只是 sqlite3 字样，删除即可,不要注释上，一定要把那一行删除了）.<br>接下来,进入存放Ghost目录下,安装所以来的npm包:<br><code>cd /srv/ghost</code><br><code>sudo npm install --production</code><br>当所有依赖包安装好之后,目录下就多出一个 node_modules 目录.<br>######终于可以启动ghost了！<br>执行如下命令重启Nginx：<br><code>sudo service nginx restart</code><br>然后进入ghost文件目录：<code>cd /srv/ghost</code><br>使用forever工具启动ghost：<code>sudo NODE_ENV=production forever start index.js</code><br>然后打开浏览器输入你的域名就可以看到ghost画面了，如果你的域名没有备案的话，可以先输入服务器地址查看页面，书写博客。<br><img src="http://upload-images.jianshu.io/upload_images/1392599-978089cd4b585386.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"><br>在搭建过程中遇到什么问题，可以联系我交流问题。</li>
-</ul>
-
-          
+<li>按照Putty使用帮助进行登录。Putty使用帮助
+          <!--noindex-->
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/12/24/实战篇-手把手教你搭建ghost博客/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
