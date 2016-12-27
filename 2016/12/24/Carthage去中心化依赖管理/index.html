@@ -84,18 +84,18 @@
 
 
 
-<meta name="description" content="####为什么用carthage很多ios开发者大概对CocoaPods并不陌生，我们几乎已经习惯了在pod文件中添加一行即可将一个库导入到自己的工程中，不得不说，在ios开发的历史中CocoaPods功不可没，提供了很大的便利性。这里我向大家介绍一个新的第三方库管理工具Carthage,Carthage的优点是在于其非侵入性,Carthage创建的是去中心化的依赖管理器。它没有总项目的列表，这">
+<meta name="description" content="为什么用carthage很多ios开发者大概对CocoaPods并不陌生，我们几乎已经习惯了在pod文件中添加一行即可将一个库导入到自己的工程中，不得不说，在ios开发的历史中CocoaPods功不可没，提供了很大的便利性。这里我向大家介绍一个新的第三方库管理工具Carthage,Carthage的优点是在于其非侵入性,Carthage创建的是去中心化的依赖管理器。它没有总项目的列表，这能够减少">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Carthage去中心化依赖管理">
 <meta property="og:url" content="http://yoururl.com/2016/12/24/Carthage去中心化依赖管理/index.html">
 <meta property="og:site_name" content="Eric'Blog">
-<meta property="og:description" content="####为什么用carthage很多ios开发者大概对CocoaPods并不陌生，我们几乎已经习惯了在pod文件中添加一行即可将一个库导入到自己的工程中，不得不说，在ios开发的历史中CocoaPods功不可没，提供了很大的便利性。这里我向大家介绍一个新的第三方库管理工具Carthage,Carthage的优点是在于其非侵入性,Carthage创建的是去中心化的依赖管理器。它没有总项目的列表，这">
+<meta property="og:description" content="为什么用carthage很多ios开发者大概对CocoaPods并不陌生，我们几乎已经习惯了在pod文件中添加一行即可将一个库导入到自己的工程中，不得不说，在ios开发的历史中CocoaPods功不可没，提供了很大的便利性。这里我向大家介绍一个新的第三方库管理工具Carthage,Carthage的优点是在于其非侵入性,Carthage创建的是去中心化的依赖管理器。它没有总项目的列表，这能够减少">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1392599-dcfd97c5d5254dc3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://octgh9scz.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202016-12-07%20%E4%B8%8B%E5%8D%887.18.16.png?attname=&e=1481113520&token=LNefbQ5CufvndBztjWvk21WSnMYonbt9dtsORbSJ:4xxIoMP7wcuSYu8gDrKrZ4Xlua8">
-<meta property="og:updated_time" content="2016-12-26T09:59:32.000Z">
+<meta property="og:image" content="http://octgh9scz.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202016-12-07%20%E4%B8%8B%E5%8D%887.18.16.png?attname=&e=1482806832&token=LNefbQ5CufvndBztjWvk21WSnMYonbt9dtsORbSJ:BudNt-5RlpKt7nWUFd5lVGrdMc8">
+<meta property="og:updated_time" content="2016-12-27T01:48:41.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Carthage去中心化依赖管理">
-<meta name="twitter:description" content="####为什么用carthage很多ios开发者大概对CocoaPods并不陌生，我们几乎已经习惯了在pod文件中添加一行即可将一个库导入到自己的工程中，不得不说，在ios开发的历史中CocoaPods功不可没，提供了很大的便利性。这里我向大家介绍一个新的第三方库管理工具Carthage,Carthage的优点是在于其非侵入性,Carthage创建的是去中心化的依赖管理器。它没有总项目的列表，这">
+<meta name="twitter:description" content="为什么用carthage很多ios开发者大概对CocoaPods并不陌生，我们几乎已经习惯了在pod文件中添加一行即可将一个库导入到自己的工程中，不得不说，在ios开发的历史中CocoaPods功不可没，提供了很大的便利性。这里我向大家介绍一个新的第三方库管理工具Carthage,Carthage的优点是在于其非侵入性,Carthage创建的是去中心化的依赖管理器。它没有总项目的列表，这能够减少">
 <meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/1392599-dcfd97c5d5254dc3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
@@ -329,12 +329,11 @@
 
       
         <p><img src="http://upload-images.jianshu.io/upload_images/1392599-dcfd97c5d5254dc3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="img"></p>
-<p>####为什么用carthage<br>很多ios开发者大概对CocoaPods并不陌生，我们几乎已经习惯了在pod文件中添加一行即可将一个库导入到自己的工程中，不得不说，在ios开发的历史中CocoaPods功不可没，提供了很大的便利性。这里我向大家介绍一个新的第三方库管理工具<a href="https://github.com/Carthage/Carthage" target="_blank" rel="external">Carthage</a>,Carthage的优点是在于其非侵入性,Carthage创建的是去中心化的依赖管理器。它没有总项目的列表，这能够减少维护工作并且避免任何中心化带来的问题（如中央服务器宕机）。不过，这样也有一些缺点，就是项目的发现将更困难，用户将依赖于Github的趋势页面或者类似的代码库来寻找项目。<br><a id="more"></a><br>CocoaPods projects must also have what’s known as a podspec file, which includes metadata about the project and specifies how it should be built. Carthage uses xcodebuild to build dependencies, instead of integrating them into a single workspace, it doesn’t have a similar specification file but your dependencies must include their own Xcode project that describes how to build their products.</p>
+<h4 id="为什么用carthage"><a href="#为什么用carthage" class="headerlink" title="为什么用carthage"></a>为什么用carthage</h4><p>很多ios开发者大概对CocoaPods并不陌生，我们几乎已经习惯了在pod文件中添加一行即可将一个库导入到自己的工程中，不得不说，在ios开发的历史中CocoaPods功不可没，提供了很大的便利性。这里我向大家介绍一个新的第三方库管理工具<a href="https://github.com/Carthage/Carthage" target="_blank" rel="external">Carthage</a>,Carthage的优点是在于其非侵入性,Carthage创建的是去中心化的依赖管理器。它没有总项目的列表，这能够减少维护工作并且避免任何中心化带来的问题（如中央服务器宕机）。不过，这样也有一些缺点，就是项目的发现将更困难，用户将依赖于Github的趋势页面或者类似的代码库来寻找项目。<br><a id="more"></a><br>CocoaPods projects must also have what’s known as a podspec file, which includes metadata about the project and specifies how it should be built. Carthage uses xcodebuild to build dependencies, instead of integrating them into a single workspace, it doesn’t have a similar specification file but your dependencies must include their own Xcode project that describes how to build their products.</p>
 <p>CocoaPods会直接创建和修改项目的workspace配置，一切都是为了便捷，我们只需要修改pod文件并不需要过多的关心其他事情，CocoaPods创建的是高度集成的项目。 而Carthage的特点是灵活，耦合度不高，集成时不需要集成相应的project，不需要创建workspace,而仅仅需要依赖打包好的framework文件即可。</p>
-<p>####怎么用carthage</p>
-<p>#####直接用.pkg安装包安装<br>这里是下载地址<a href="https://github.com/Carthage/Carthage/releases/tag/0.18.1" target="_blank" rel="external">https://github.com/Carthage/Carthage/releases/tag/0.18.1</a></p>
-<p>#####用homebrew<br>打开终端,依次输入:<br><code>brew update</code><br><code>brew install carthage</code><br>安装之后可以用<code>carthage version</code>查看当前版本,确认安装成功  </p>
-<p>#####使用<br>在你的工程里创建一个Cartfile文件 ,并在里面写上类似下面这句话<br><code>github &quot;SwiftyJSON/SwiftyJSON&quot;</code><br>执行<code>carthage update</code><br>会在工程目录里生成一个Carthage的文件夹,里面有自动生成的framework,然后将其拖入这个目录下边Embedded Binaries<br><img src="http://octgh9scz.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202016-12-07%20%E4%B8%8B%E5%8D%887.18.16.png?attname=&amp;e=1481113520&amp;token=LNefbQ5CufvndBztjWvk21WSnMYonbt9dtsORbSJ:4xxIoMP7wcuSYu8gDrKrZ4Xlua8" alt="img"></p>
+<h4 id="怎么用carthage"><a href="#怎么用carthage" class="headerlink" title="怎么用carthage"></a>怎么用carthage</h4><h5 id="直接用-pkg安装包安装"><a href="#直接用-pkg安装包安装" class="headerlink" title="直接用.pkg安装包安装"></a>直接用.pkg安装包安装</h5><p>这里是下载地址<a href="https://github.com/Carthage/Carthage/releases/tag/0.18.1" target="_blank" rel="external">https://github.com/Carthage/Carthage/releases/tag/0.18.1</a></p>
+<h5 id="用homebrew"><a href="#用homebrew" class="headerlink" title="用homebrew"></a>用homebrew</h5><p>打开终端,依次输入:<br><code>brew update</code><br><code>brew install carthage</code><br>安装之后可以用<code>carthage version</code>查看当前版本,确认安装成功  </p>
+<h5 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h5><p>在你的工程里创建一个Cartfile文件 ,并在里面写上类似下面这句话<br><code>github &quot;SwiftyJSON/SwiftyJSON&quot;</code><br>执行<code>carthage update</code><br>会在工程目录里生成一个Carthage的文件夹,里面有自动生成的framework,然后将其拖入这个目录下边Embedded Binaries<br><img src="http://octgh9scz.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202016-12-07%20%E4%B8%8B%E5%8D%887.18.16.png?attname=&amp;e=1482806832&amp;token=LNefbQ5CufvndBztjWvk21WSnMYonbt9dtsORbSJ:BudNt-5RlpKt7nWUFd5lVGrdMc8" alt="img"></p>
 
       
     </div>
@@ -416,8 +415,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="http://octgh9scz.bkt.clouddn.com/chunyang.jpeg?attname=&e=1482747817&token=LNefbQ5CufvndBztjWvk21WSnMYonbt9dtsORbSJ:B_uTY9WbSk_kmfEOZi5ESRIY6AY"
@@ -470,6 +478,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#为什么用carthage"><span class="nav-number">1.</span> <span class="nav-text">为什么用carthage</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#怎么用carthage"><span class="nav-number">2.</span> <span class="nav-text">怎么用carthage</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#直接用-pkg安装包安装"><span class="nav-number">2.1.</span> <span class="nav-text">直接用.pkg安装包安装</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#用homebrew"><span class="nav-number">2.2.</span> <span class="nav-text">用homebrew</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#使用"><span class="nav-number">2.3.</span> <span class="nav-text">使用</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
     </div>
